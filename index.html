@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criminal Profiling System</title>
     <link href="styles.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body class="body">
 <!-- Navigation -->
@@ -44,360 +43,94 @@
     </div>
 </main>
 
-<main class="secondbg">
-    <div class="main-container">
-        <div class="text-content">
-            <h2>What is Criminal Profiling?</h2>
-            <p>Criminal profiling is a crucial technique used by law enforcement to analyze offender behavior, 
-                identify crime patterns, and predict future criminal activities. Traditional profiling methods rely 
-                heavily on human intuition, which can introduce bias and inconsistencies. The Crime Type Prediction model classifies crimes into categories such as
-                Theft, Fraud, or Assault based on crime scene details, offender characteristics, and location data. 
-                The Crime Severity Prediction model assesses the seriousness of a crime (Low, Medium, or High) by analyzing 
-                weapon involvement, injury severity, and financial damage. Additionally, the Offender Risk Level Prediction 
-                model evaluates whether an individual is at Low, Medium, or High risk of reoffending using psychological, 
-                behavioral, and past criminal records.With interactive dashboards, crime heatmaps, and AI-generated reports, this system provides a cutting-edge, 
-                data-driven approach to criminal investigations, improving both efficiency and public safety. </p>
-        </div>
 
-        <div class="container1" id="container1">
-            <div class="form-container sign-up-container">
-                <form action="#">
-                    <h1>Create Account</h1>
-                    <div class="social-container">
-                        <a href="#" class="social"><img src="facebook.png" alt="Facebook" width="30"></a>
-                        <a href="#" class="social"><img src="google.png" alt="Google" width="30"></a>
-                        <a href="#" class="social"><img src="linkedin.png" alt="LinkedIn" width="30"></a>
-                    </div>
-                    <span>or use your email for registration</span>
-                    <input type="text" placeholder="Name" />
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign Up</button>
-                </form>
+        <div class="wrapper">
+            <div class="login_box">
+              <div class="login-header">
+                <span>Login</span>
+              </div>
+              <div class="input_box">
+                <input type="text" id="user" class="input-field" required>
+                <label for="user" class="label">Username</label>
+                <i class="fa-regular fa-user"></i>
+              </div>
+              <div class="input_box">
+                <input type="password" id="pass" class="input-field" required>
+                <label for="pass" class="label">Password</label>
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <div class="remember-forgot">
+                <div class="remember-me">
+                  <input type="checkbox" id="remember">
+                  <label for="remember">Remember me</label>
+                </div>
+                <div class="forgot">
+                  <a href="#">Forgot password?</a>
+                </div>
+              </div>
+              <div class="input_box">
+                <input type="submit" class="input-submit" value="Login">
+              </div>
+              <div class="register">
+                <span>
+                  Don't have an account?
+                  <a href="#">Register</a>
+                </span>
+              </div>
             </div>
-            <div class="form-container sign-in-container">
-                <form action="#">
-                    <h1>Sign in</h1>
-                    <div class="social-container">
-                        <a href="#" class="social"><img src="facebook.png" alt="Facebook" width="30"></a>
-                        <a href="#" class="social"><img src="google.png" alt="Google" width="30"></a>
-                        <a href="#" class="social"><img src="linkedin.png" alt="LinkedIn" width="30"></a>
+          </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="container">
+                <div class="features-header">
+                    <h2>Features</h2>
+                    <p class="features-title">Advanced Profiling Tools</p>
+                </div>
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <h3>Feature 1</h3>
+                        <p>Detailed description of the profiling tool.</p>
                     </div>
-                    <span>or use your account</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <a href="#">Forgot your password?</a>
-                    <button>Sign In</button>
-                </form>
-            </div>
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Please login with your personal info</p>
-                        <button class="ghost" id="signIn">Sign In</button>
+                    <div class="feature-card">
+                        <h3>Feature 2</h3>
+                        <p>Detailed description of the profiling tool.</p>
                     </div>
-                    <div class="overlay-panel overlay-right">
-                        <h1>Hello Agents!</h1>
-                        <p>Register Here to Proceed</p>
-                        <button class="ghost" id="signUp">Sign Up</button>
+                    <div class="feature-card">
+                        <h3>Feature 3</h3>
+                        <p>Detailed description of the profiling tool.</p>
                     </div>
                 </div>
             </div>
-        </div>        
-</main>
+        </div>
+    </main>
 
-
-
-
-
-
-<!-- Crime Statistics Counter -->
-<div class="crime-stats-container">
-    <div class="crime-stat">
-        <span id="totalCrimes" class="stat-number">0</span>
-        <p>Total Crimes</p>
-    </div>
-    <div class="crime-stat">
-        <span id="maxCrimeState" class="stat-number"></span>
-        <p>State with Maximum Crimes</p>
-    </div>
-    <div class="crime-stat">
-        <span id="maxStateCrimes" class="stat-number">0</span>
-        <p>Crimes in that State</p>
-    </div>
-</div>
-
-<main class="mapbg">
-<!-- Crime Hotspots and Criminal Profiling Section -->
-<div class="crime-info-container">
-    <!-- Map Section -->
-    <div class="crime-map">
-        <h2>Crime Hotspots in the USA</h2>
-        <div id="crimeMap"></div>
-    </div>
-
-<!-- Criminal Profiling Description -->
-<div class="crime-description">
-
-    <h3> Crime Locations:</h3>
-    <ul class="crime-locations">
-        <li data-coordinates="[34.0522, -118.2437]" data-location="Los Angeles, CA" data-count="60000" data-severity="high">
-            <strong>Los Angeles, CA</strong>
-        </li>
-        <li data-coordinates="[40.7128, -74.0060]" data-location="New York, NY" data-count="55000" data-severity="high">
-            <strong>New York, NY</strong>
-        </li>
-        <li data-coordinates="[41.8781, -87.6298]" data-location="Chicago, IL" data-count="50000" data-severity="high">
-            <strong>Chicago, IL</strong>
-        </li>
-        <li data-coordinates="[29.7604, -95.3698]" data-location="Houston, TX" data-count="40000" data-severity="high">
-            <strong>Houston, TX</strong> 
-        </li>
-        <li data-coordinates="[39.9526, -75.1652]" data-location="Philadelphia, PA" data-count="35000" data-severity="high">
-            <strong>Philadelphia, PA</strong> 
-        </li>
-        <li data-coordinates="[33.4484, -112.0740]" data-location="Phoenix, AZ" data-count="32000" data-severity="medium">
-            <strong>Phoenix, AZ</strong> 
-        </li>
-        <li data-coordinates="[29.4241, -98.4936]" data-location="San Antonio, TX" data-count="30000" data-severity="medium">
-            <strong>San Antonio, TX</strong> 
-        </li>
-        <li data-coordinates="[32.7157, -117.1611]" data-location="San Diego, CA" data-count="25000" data-severity="medium">
-            <strong>San Diego, CA</strong> 
-        </li>
-        <li data-coordinates="[32.7767, -96.7970]" data-location="Dallas, TX" data-count="24000" data-severity="medium">
-            <strong>Dallas, TX</strong> 
-        </li>
-        <li data-coordinates="[37.3382, -121.8863]" data-location="San Jose, CA" data-count="20000" data-severity="medium">
-            <strong>San Jose, CA</strong> 
-        </li>
-        <li data-coordinates="[30.2672, -97.7431]" data-location="Austin, TX" data-count="15000" data-severity="medium">
-            <strong>Austin, TX</strong> 
-        </li>
-        <li data-coordinates="[47.6062, -122.3321]" data-location="Seattle, WA" data-count="8000" data-severity="low">
-            <strong>Seattle, WA</strong> 
-        </li>
-        <li data-coordinates="[39.7392, -104.9903]" data-location="Denver, CO" data-count="7500" data-severity="low">
-            <strong>Denver, CO</strong> 
-        </li>
-        <li data-coordinates="[38.9072, -77.0369]" data-location="Washington, DC" data-count="7000" data-severity="low">
-            <strong>Washington, DC</strong> 
-        </li>
-        <li data-coordinates="[42.3601, -71.0589]" data-location="Boston, MA" data-count="6500" data-severity="low">
-            <strong>Boston, MA</strong>
-        </li>
-    </ul>
-    
-</div>
-</div>
-
-</main>
-
-
-
-
-
-<footer>
-    <div class="footer-container">
-        <!-- Social Media Links -->
-        <div class="footer-section social">
-            <h2>Follow Us</h2>
-            <div class="social-icons">
-                <a href="#" class="social-link"><img src="facebook.png" alt="Facebook" width="30"></a>
-                <a href="#" class="social-link"><img src="twitter.png" alt="Twitter" width="30"></a>
-                <a href="#" class="social-link"><img src="linkedin.png" alt="LinkedIn" width="30"></a>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Criminal Profiling System</h3>
+                    <p>Advanced analytics and profiling tools for law enforcement professionals.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/dashboard.html">Dashboard</a></li>
+                        <li><a href="/analytics.html">Analytics</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <p>For support and inquiries:</p>
+                    <p>Email: support@criminalprofile.org</p>
+                    <p>Phone: 119</p>
+                </div>
             </div>
         </div>
+    </footer>
 
-        <!-- Newsletter Subscription -->
-        <div class="footer-section newsletter">
-            <h2>Subscribe</h2>
-            <form id="subscribe-form">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-
-        <!-- Contact Us -->
-        <div class="footer-section contact">
-            <h2>Contact Us</h2>
-            <p><img src="email.png" alt="Email" width="20"> support@criminalprofiling.com</p>
-            <p><img src="phone.png" alt="Phone" width="20"> +1 234 567 890</p>
-            <p><img src="location.png" alt="Location" width="20"> 123 Crime Investigation Street, NY, USA</p>
-        </div>
-
-        <!-- Feedback Form -->
-        <div class="footer-section feedback">
-            <h2>Feedback</h2>
-            <form id="feedback-form">
-                <textarea placeholder="Share your thoughts" required></textarea>
-                <button type="submit">Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 Criminal Profiling System</p>
-    </div>
-</footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/js/main.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-   document.addEventListener("DOMContentLoaded", function () {
-    function animateNumber(elementId, targetValue, duration = 2000) {
-        let start = 0;
-        let increment = Math.ceil(targetValue / (duration / 20));
-        let el = document.getElementById(elementId);
-
-        let timer = setInterval(() => {
-            start += increment;
-            if (start >= targetValue) {
-                el.textContent = targetValue.toLocaleString();
-                clearInterval(timer);
-            } else {
-                el.textContent = start.toLocaleString();
-            }
-        }, 20);
-    }
-
-    function startAnimation() {
-        let statsSection = document.querySelector(".crime-stats-container");
-        let statsPosition = statsSection.getBoundingClientRect().top;
-        let screenHeight = window.innerHeight;
-
-        if (statsPosition < screenHeight - 100) {
-            if (!statsSection.classList.contains("animated")) {
-                statsSection.classList.add("animated");
-                animateNumber("totalCrimes", 1200000);
-                document.getElementById("maxCrimeState").textContent = "California";
-                animateNumber("maxStateCrimes", 230000);
-            }
-        }
-    }
-
-    window.addEventListener("scroll", startAnimation);
-    startAnimation();
-
-// Initialize the map with a temporary world view
-let map = L.map('crimeMap').setView([20, -95], 3); 
-
-// Load OpenStreetMap tile layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-// Automatically fly to New York as if a tab was clicked
-setTimeout(() => {
-    map.flyTo([40.7128, -74.0060], 10);  // Smooth transition to New York
-}, 1000);
-
-// Expanded Crime Hotspots Data (More States Covered)
-let crimeHotspots = [
-    { location: "Los Angeles, CA", coords: [34.0522, -118.2437], count: 60000, severity: "high" },
-    { location: "New York, NY", coords: [40.7128, -74.0060], count: 55000, severity: "high" },
-    { location: "Chicago, IL", coords: [41.8781, -87.6298], count: 50000, severity: "high" },
-    { location: "Houston, TX", coords: [29.7604, -95.3698], count: 40000, severity: "high" },
-    { location: "Philadelphia, PA", coords: [39.9526, -75.1652], count: 35000, severity: "high" },
-    { location: "Phoenix, AZ", coords: [33.4484, -112.0740], count: 32000, severity: "medium" },
-    { location: "San Antonio, TX", coords: [29.4241, -98.4936], count: 30000, severity: "medium" },
-    { location: "San Diego, CA", coords: [32.7157, -117.1611], count: 25000, severity: "medium" },
-    { location: "Dallas, TX", coords: [32.7767, -96.7970], count: 24000, severity: "medium" },
-    { location: "San Jose, CA", coords: [37.3382, -121.8863], count: 20000, severity: "medium" },
-    { location: "Austin, TX", coords: [30.2672, -97.7431], count: 15000, severity: "medium" },
-    { location: "Seattle, WA", coords: [47.6062, -122.3321], count: 8000, severity: "low" },
-    { location: "Denver, CO", coords: [39.7392, -104.9903], count: 7500, severity: "low" },
-    { location: "Washington, DC", coords: [38.9072, -77.0369], count: 7000, severity: "low" },
-    { location: "Boston, MA", coords: [42.3601, -71.0589], count: 6500, severity: "low" },
-];
-
-let currentCircle = null; // Track active circle
-
-// Function to highlight the clicked location
-function highlightLocation(coords, location, count, severity) {
-    // Fly to the selected location
-    map.flyTo(coords, 10);
-
-    // Remove the previous circle (if exists) and create a new one
-    if (currentCircle) {
-        map.removeLayer(currentCircle);
-    }
-    let color = severity === "high" ? "red" : severity === "medium" ? "orange" : "green";
-    let radius = Math.sqrt(count) * 6;
-
-    currentCircle = L.circle(coords, {
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.5,
-        radius: radius,
-        weight: 4,
-        opacity: 1
-    }).addTo(map);
-
-    // Add a marker and popup
-    let marker = L.marker(coords).addTo(map);
-    marker.bindPopup(`<b>${location}</b><br>Crimes: ${count}<br>
-        <span style="color:${color}; font-weight: bold;">Severity: ${severity.toUpperCase()}</span>`).openPopup();
-}
-
-// Function to load the New York location when the map comes into view
-function loadNewYorkOnScroll() {
-    // IntersectionObserver to detect when the map comes into view
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Highlight New York when map is in view
-                highlightLocation([40.7128, -74.0060], "New York, NY", 55000, "high");
-                observer.disconnect(); // Stop observing after loading New York
-            }
-        });
-    }, { threshold: 0.5 });
-
-    // Observe the map container
-    observer.observe(document.getElementById('crimeMap'));
-}
-
-// Automatically load New York on scroll when map comes into view
-document.addEventListener("DOMContentLoaded", function () {
-    loadNewYorkOnScroll();
-});
-
-// Event listeners for clicks on the crime locations
-document.querySelectorAll('.crime-locations li').forEach(item => {
-    item.addEventListener('click', function () {
-        let coords = JSON.parse(item.getAttribute('data-coordinates'));
-        let location = item.getAttribute('data-location');
-        let count = parseInt(item.getAttribute('data-count'));
-        let severity = item.getAttribute('data-severity');
-
-        highlightLocation(coords, location, count, severity);
-
-        document.getElementById('crimeMap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-});
-
-// Event listener to trigger New York location highlight on hover
-document.querySelector('.crime-map').addEventListener('mouseenter', function () {
-    // Highlight New York when the map is hovered over
-    highlightLocation([40.7128, -74.0060], "New York, NY", 55000, "high");
-});
-
-});
-
-</script>
-
+    <script src="/js/main.js"></script>
 </body>
 </html>
