@@ -6,7 +6,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.impute import SimpleImputer  # For imputing missing values
 
 # Load your dataset
-df = pd.read_csv("D:\\IIT\\2nd Year\\Group project\\daatasets\\Usable\\criminal_profiling_data_fixed.csv")
+df = pd.read_csv("D:\\IIT\\2nd Year\\Group project\\daatasets\\Usable\\demographic.csv")
 
 #Extract 'Age' from 'Date of Birth' if it’s not correct
 df['Date of Birth'] = pd.to_datetime(df['Date of Birth'], errors='coerce')
