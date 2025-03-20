@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Prediction Forms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #FFD700;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+            padding: 20px;
+            width: 400px;
+            margin: 10px;
+            display: none; /* Hide all forms by default */
+        }
+        .form-container.active {
+            display: block; /* Show the active form */
+        }
+        h1 {
+            text-align: center;
+            color: #FFD700;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            color: #FFD700;
+        }
+        select, input[type="number"], input[type="submit"], button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #FFD700;
+            background-color: #333;
+            color: #FFD700;
+        }
+        input[type="submit"], button {
+            background-color: #FFD700;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #E6C200;
+        }
+        .result {
+            font-size: 16px;
+            color: #FFD700;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .all-results {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            display: none; /* Hide by default */
+            width: 400px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .button-container button {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Predict Perpetrator's Sex -->
+<div class="form-container active" id="sexFormContainer">
+    <h1>Predict Perpetrator's Sex</h1>
+    <form id="sexForm">
+        <label>Crime Solved:</label>
+        <select id="crime_solved"><option>Yes</option><option>No</option></select>
+        <label>Victim Sex:</label>
+        <select id="victim_sex"><option>Male</option><option>Female</option></select>
+        <label>Victim Race (White):</label>
+        <select id="victim_race_white"><option>Yes</option><option>No</option></select>
+        <label>Crime Type:</label>
+        <select id="crime_type"><option>Yes</option><option>No</option></select>
+        <label>Weapon (Handgun):</label>
+        <select id="weapon"><option>Yes</option><option>No</option></select>
+        
+        <div class="button-container">
+            <button type="button" onclick="submitSexForm()">Predict Sex</button>
+            <button type="button" onclick="nextForm('sexFormContainer', 'raceFormContainer')">Next</button>
+        </div>
+    </form>
+    <div id="sexResult" class="result"></div>
+</div>
+
+<!-- Predict Perpetrator's Race -->
+<div class="form-container" id="raceFormContainer">
+    <h1>Predict Perpetrator's Race</h1>
+    <form id="raceForm">
+        <label>Victim Race (Black):</label>
+        <select id="victim_race_black"><option>Yes</option><option>No</option></select>
+        <label>Victim Race (White):</label>
+        <select id="victim_race_white2"><option>Yes</option><option>No</option></select>
+        <label>Victim Race (Native American/Alaska Native):</label>
+        <select id="victim_race_native"><option>Yes</option><option>No</option></select>
+        <label>Victim Race (Unknown):</label>
+        <select id="victim_race_unknown"><option>Yes</option><option>No</option></select>
+        <label>Age Group:</label>
+        <select id="age_group"><option>Child</option><option>Adult</option><option>Elderly</option><option>Other</option></select>
+        
+        <div class="button-container">
+            <button type="button" onclick="submitRaceForm()">Predict Race</button>
+            <button type="button" onclick="nextForm('raceFormContainer', 'ageFormContainer')">Next</button>
+        </div>
+    </form>
+    <div id="raceResult" class="result"></div>
+</div>
+
+<!-- Predict Perpetrator's Age -->
+<div class="form-container" id="ageFormContainer">
+    <h1>Predict Perpetrator's Age</h1>
+    <form id="ageForm">
+        <label>Crime Solved:</label>
+        <select id="crime_solved2"><option>Yes</option><option>No</option></select>
+        <label>Victim Sex:</label>
+        <select id="victim_sex2"><option>Male</option><option>Female</option></select>
+        <label>Victim Race (White):</label>
+        <select id="victim_race_white3"><option>Yes</option><option>No</option></select>
+        <label>Crime Type:</label>
+        <select id="crime_type2"><option>Yes</option><option>No</option></select>
+        <label>Weapon (Handgun):</label>
+        <select id="weapon2"><option>Yes</option><option>No</option></select>
+        
+        <div class="button-container">
+            <button type="button" onclick="submitAgeForm()">Submit & See All Results</button>
+        </div>
+    </form>
+    <div id="ageResult" class="result"></div>
+</div>
+
+<!-- All Results -->
+<div class="all-results" id="allResults">
+    <h1>All Predictions</h1>
+    <div id="finalSexResult"></div>
+    <div id="finalRaceResult"></div>
+    <div id="finalAgeResult"></div>
+</div>
+
+<script>
+    const BASE_URL = "http://127.0.0.1:5000"; 
+    
+    // Store predictions globally
+    const predictions = {
+        sex: null,
+        race: null
+    };
+    
+    // Simple function to navigate between forms
+    function nextForm(currentFormId, nextFormId) {
+        document.getElementById(currentFormId).classList.remove('active');
+        document.getElementById(nextFormId).classList.add('active');
+    }
+    
+    // Reset the form and start over
+    function resetForm() {
+        // Clear predictions
+        predictions.sex = null;
+        predictions.race = null;
+        
+        // Clear result displays
+        document.getElementById("sexResult").textContent = "";
+        document.getElementById("raceResult").textContent = "";
+        
+        // Hide all forms and results
+        document.querySelectorAll('.form-container').forEach(form => {
+            form.classList.remove('active');
+        });
+        document.getElementById('allResults').style.display = 'none';
+        
+        // Show the first form
+        document.getElementById('sexFormContainer').classList.add('active');
+        
+        // Reset all dropdowns to first option
+        document.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0;
+        });
+    }
+    
+    async function fetchPrediction(type, data) {
+        try {
+            console.log(`Sending ${type} prediction request:`, data);
+            const response = await fetch(`${BASE_URL}/predict/${type}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            console.log(`${type} prediction result:`, result);
+            return result.prediction;
+        } catch (error) {
+            console.error(`Error fetching ${type} prediction:`, error);
+            return `Error: ${error.message}`;
+        }
+    }
+    
+    async function submitSexForm() {
+        const formData = {
+            crime_solved: parseInt(document.getElementById('crime_solved').value),
+            victim_sex: parseInt(document.getElementById('victim_sex').value),
+            victim_race_white: parseInt(document.getElementById('victim_race_white').value),
+            crime_type: parseInt(document.getElementById('crime_type').value),
+            weapon: parseInt(document.getElementById('weapon').value)
+        };
+    
+        document.getElementById("sexResult").textContent = "Loading prediction...";
+        predictions.sex = await fetchPrediction('sex', formData);
+        document.getElementById("sexResult").textContent = `Predicted Perpetrator's Sex: ${predictions.sex}`;
+    }
+    
+    async function submitRaceForm() {
+        const formData = {
+            victim_race_black: parseInt(document.getElementById('victim_race_black').value),
+            victim_race_white2: parseInt(document.getElementById('victim_race_white2').value),
+            victim_race_native: parseInt(document.getElementById('victim_race_native').value),
+            victim_race_unknown: parseInt(document.getElementById('victim_race_unknown').value),
+            age_group: document.getElementById('age_group').value
+        };
+    
+        document.getElementById("raceResult").textContent = "Loading prediction...";
+        predictions.race = await fetchPrediction('race', formData);
+        document.getElementById("raceResult").textContent = `Predicted Perpetrator's Race: ${predictions.race}`;
+    }
+    
+    function showAllResults() {
+        // Hide all forms
+        document.querySelectorAll('.form-container').forEach(form => {
+            form.classList.remove('active');
+        });
+    
+        // Display all results
+        document.getElementById('finalSexResult').textContent = `Predicted Perpetrator's Sex: ${predictions.sex || "Not predicted"}`;
+        document.getElementById('finalRaceResult').textContent = `Predicted Perpetrator's Race: ${predictions.race || "Not predicted"}`;
+    
+        // Show the all-results section
+        document.getElementById('allResults').style.display = 'block';
+    }
+    </script>
+
+</body>
+</html>
