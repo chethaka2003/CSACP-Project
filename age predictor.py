@@ -100,3 +100,5 @@ print("Mean Squared Error (MSE):", mse)
 # Optionally, print some predictions vs. actual values for comparison
 print("Predictions:", y_pred[:10])  # First 10 predictions
 print("Actual:", y_test[:10])  # First 10 actual values
+
+
